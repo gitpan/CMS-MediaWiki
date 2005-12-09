@@ -1,16 +1,10 @@
 CMS-MediaWiki version 0.01
 ==========================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+CMS::MediaWiki - Perl extension for managing MediaWiki pages
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+Please see http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
+for a detailed description of the usage.
 
 INSTALLATION
 
@@ -25,16 +19,23 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+  LWP::UserAgent
+  HTTP::Request::Common
+
+  Mostly these modules exist on common systems ;-)
 
 COPYRIGHT AND LICENCE
 
-Put the correct copyright and licence information here.
+  Unless there is no other clause written in the code, feel free to use it
+  for commercial purposes or just for pleasure. You may change the code for 
+  your needs if you like. Redistribution and use in source and binary forms, 
+  with or without modification, are permitted.
 
-Copyright (C) 2005 by Reto Hersiczky
+  http://www.infocopter.com/perl/licencing.html
+
+Copyright (C) 2005 by Reto Schär
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
 at your option, any later version of Perl 5 you may have available.
-
 

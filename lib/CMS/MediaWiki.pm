@@ -10,7 +10,7 @@ package CMS::MediaWiki;
 use strict;
 my $package = __PACKAGE__;
 
-our $VERSION = '0.80.02';
+our $VERSION = '0.80.03';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -223,20 +223,20 @@ CMS::MediaWiki - Perl extension for managing MediaWiki pages
 =head1 DESCRIPTION
 
 my $rc = $rmw->login(
-	#host => 'localhost' ,  # optional here, but wins
+	#host => 'localhost' ,  # optional here, but wins if (re-)set here
 	#path => 'wiki',        # optional here, but wins
 
 	user => 'Reto' ,
-	pass => 'lanckp' ,
+	pass => 'yourpass' ,
 );
 
 $rc = $rmw->editPage(
 	title => 'Online_Directory:Computers:Software:Internet:Authoring' ,
 
         section => '' ,	#  2 means edit second section etc.
-                        # '' means no section (edit the full page)
+                        # '' = no section means edit the full page
 
-        text    => "== foo bar ==\nbar foo\n\n",
+        text    => "== foo ==\nbar foo\n\n",
 
         summary => "Your Summary" ,
 );
@@ -248,7 +248,7 @@ None by default.
 =head1 SEE ALSO
 
   http://www.infocopter.com/perl/modules/
-  http://www.infocopter.com/know-how/mediawiki/
+  http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
 
 =head1 AUTHOR
 
@@ -262,5 +262,6 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
 at your option, any later version of Perl 5 you may have available.
 
+http://www.infocopter.com/perl/licencing.html
 
 =cut
