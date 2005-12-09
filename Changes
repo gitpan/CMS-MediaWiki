@@ -1,0 +1,6 @@
+Revision history for Perl extension CMS::MediaWiki.
+
+0.01  Fri Dec  9 11:34:22 2005
+	- original version; created by h2xs 1.23 with options
+		-A -n CMS::MediaWiki
+
