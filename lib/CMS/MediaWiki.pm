@@ -10,7 +10,7 @@ package CMS::MediaWiki;
 use strict;
 my $package = __PACKAGE__;
 
-our $VERSION = '0.80.04';
+our $VERSION = '0.80.05';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -19,7 +19,6 @@ use HTTP::Request::Common;
 my %Var = ();
 my $contentType = "";
 my $ua;
-my $SERVER_SIG = '*Unknown*';
 
 $| = 1;
 
@@ -35,6 +34,8 @@ sub new {
 	$self->{'host'  } = $params{'host'};
 	$self->{'path'  } = $params{'path'};
 	$self->{'debug' } = $params{'debug'}; # 0, 1, 2
+	$Var{'SERVER_SIG'} = '*Unknown*';
+	$Var{'EDIT_TIME_BEFORE'} = '*Unknown*';
 
 	Debug "$package V$VERSION" if $self->{'debug'};
 
@@ -99,7 +100,7 @@ sub login {
 			}
 		}
 		if ($_ =~ /^server$/i) {
-			$SERVER_SIG = $resp->{'_headers'}->{$_};
+			$Var{'SERVER_SIG'} = $resp->{'_headers'}->{$_};
 		}
 	}
 
@@ -112,9 +113,8 @@ sub editPage {
 
 	if ($self->{'debug'}) {
 		Debug "[editPage] $_ = \"$args{$_}\"" foreach keys %args;
+		Debug "[editPage] VAR $_ = \"$Var{$_}\"" foreach keys %Var;
 	}
-
-	Debug "[editPage] VAR $_ = \"$Var{$_}\"" foreach keys %Var;
 
 	my $WHOST = $self->{'host'} || 'localhost';
 	my $WPATH = $self->{'path'} || '';
@@ -132,7 +132,7 @@ sub editPage {
 	my @lines = split /\n/, $resp->content();
 	my $token = my $edit_time = '';
 	foreach (@lines) {
-		# print "X $_\n";
+		#Debug "X $_";
 		if (/wpEditToken/) {
 			s/type=.?hidden.? *value="(.+)" *name/$1/i;
 			$token = $1;
@@ -140,6 +140,14 @@ sub editPage {
 		if (/wpEdittime/) {
 			s/type=.?hidden.? *value="(.+)" *name/$1/i;
 			$edit_time = $1 || '';
+			$Var{EDIT_TIME_BEFORE} = $edit_time;
+		}
+		if (/<title>/i) {
+			s/<title>(.+)<\/title>/$1/i;
+			$Var{PAGE_TITLE} = $1 || '';
+		}
+		if (/index.php\?title=(.+?):Copyright.+/i) {
+			$Var{WIKI_NAME} = $1 || '';
 		}
 	}
 
@@ -181,8 +189,14 @@ sub editPage {
 	}
 }
 
-sub let {
+sub get {
 	my $self = shift;
+	my $Key  = shift;
+	$Var{$Key};
+}
+
+sub let {
+	my $self  = shift;
 	my $Key   = shift;
 	my $Value = shift;
 
@@ -216,8 +230,8 @@ CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
 
   my $mw = CMS::MediaWiki->new(
 	host  => 'localhost',
-	path  => 'wiki' ,     # --E<gt> Can be empty
-	debug => 0            # --E<gt> 0 (no debug msgs), 1 or 2 (more msgs)
+	path  => 'wiki' ,     # -- E<gt> Can be empty
+	debug => 0            # -- E<gt> 0 (no debug msgs), 1 or 2 (more msgs)
   );
 
 =head1 DESCRIPTION
@@ -249,6 +263,15 @@ CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
 	);
 
 In general, $rc returns 0 on success unequal 0 on failure.
+
+=head3 Tip
+
+After a successful call of the editPage function you had the
+following information available:
+
+  print "Edit time (before) was ", $mw->get('EDIT_TIME_BEFORE'), "\n";
+  print "Page title was "        , $mw->get('PAGE_TITLE')      , "\n";
+  print "The Wiki name was "     , $mw->get('WIKI_NAME')       , "\n";
 
 =head2 EXPORT
 

@@ -56,11 +56,11 @@ AR_STATIC_ARGS = cr
 DIRFILESEP = /
 NAME = CMS::MediaWiki
 NAME_SYM = CMS_MediaWiki
-VERSION = 0.80.05
+VERSION = 0.80.04
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_80_05
+VERSION_SYM = 0_80_04
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.80.05
+XS_VERSION = 0.80.04
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -250,7 +250,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = CMS-MediaWiki
-DISTVNAME = CMS-MediaWiki-0.80.05
+DISTVNAME = CMS-MediaWiki-0.80.04
 
 
 # --- MakeMaker macro section:
@@ -525,7 +525,7 @@ metafile :
 	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META.yml
 	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META.yml
 	$(NOECHO) $(ECHO) 'name:         CMS-MediaWiki' >> META.yml
-	$(NOECHO) $(ECHO) 'version:      0.80.05' >> META.yml
+	$(NOECHO) $(ECHO) 'version:      0.80.04' >> META.yml
 	$(NOECHO) $(ECHO) 'version_from: lib/CMS/MediaWiki.pm' >> META.yml
 	$(NOECHO) $(ECHO) 'installdirs:  site' >> META.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META.yml
@@ -847,7 +847,7 @@ testdb_static :: pure_all $(MAP_TARGET)
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,80,05,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,80,04,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl extension for creating and updating MediaWiki pages</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Reto Hersiczky &lt;retoh@localdomain&gt;</AUTHOR>' >> $(DISTNAME).ppd
