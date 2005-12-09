@@ -1,10 +1,17 @@
-CMS-MediaWiki version 0.01
-==========================
+CMS::MediaWiki
+==============
 
 CMS::MediaWiki - Perl extension for managing MediaWiki pages
 
-Please see http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
-for a detailed description of the usage.
+Please see
+
+http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
+
+or enter
+
+man CMS::MediaWiki
+
+at your shell prompt after installation for a detailed description of the usage.
 
 INSTALLATION
 
@@ -22,7 +29,7 @@ This module requires these other modules and libraries:
   LWP::UserAgent
   HTTP::Request::Common
 
-  Mostly these modules exist on common systems ;-)
+  These modules should exist on a common system ;-)
 
 COPYRIGHT AND LICENCE
 

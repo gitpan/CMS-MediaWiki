@@ -10,7 +10,7 @@ package CMS::MediaWiki;
 use strict;
 my $package = __PACKAGE__;
 
-our $VERSION = '0.80.04';
+our $VERSION = '0.80.03';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -208,47 +208,38 @@ __END__
 
 =head1 NAME
 
-CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
+CMS::MediaWiki - Perl extension for managing MediaWiki pages
 
 =head1 SYNOPSIS
 
   use CMS::MediaWiki;
 
-  my $mw = CMS::MediaWiki->new(
+  my $rmw = CMS::MediaWiki->new(
 	host  => 'localhost',
-	path  => 'wiki' ,     # --E<gt> Can be empty
-	debug => 0            # --E<gt> 0 (no debug msgs), 1 or 2 (more msgs)
+	path  => 'wiki' ,
+	debug => 0  # 0, 1 or 2
   );
 
 =head1 DESCRIPTION
 
-=head2 Login example
+my $rc = $rmw->login(
+	#host => 'localhost' ,  # optional here, but wins if (re-)set here
+	#path => 'wiki',        # optional here, but wins
 
-	$rc = $mw->login( user => 'Reto' , pass => 'yourpass' );
+	user => 'Reto' ,
+	pass => 'yourpass' ,
+);
 
-=head2 Another login example
+$rc = $rmw->editPage(
+	title => 'Online_Directory:Computers:Software:Internet:Authoring' ,
 
-	$rc = $mw->login(
-		host => 'localhost' ,  # optional here, but wins if (re-)set here
-		path => 'wiki',        # optional here, but wins
-		user => 'Reto' ,
-		pass => 'yourpass' ,
-	);
+        section => '' ,	#  2 means edit second section etc.
+                        # '' = no section means edit the full page
 
-=head2 Edit a Wiki page
+        text    => "== foo ==\nbar foo\n\n",
 
-	$rc = $mw->editPage(
-		title   => 'Online_Directory:Computers:Software:Internet:Authoring' ,
-
-	    	section => '' ,	#  2 means edit second section etc.
-        	                # '' = no section means edit the full page
-
-        	text    => "== foo ==\nbar foo\n\n",
-
-		summary => "Your summary." ,
-	);
-
-In general, $rc returns 0 on success unequal 0 on failure.
+        summary => "Your Summary" ,
+);
 
 =head2 EXPORT
 
@@ -256,13 +247,12 @@ None by default.
 
 =head1 SEE ALSO
 
-http://www.infocopter.com/perl/modules/
-
-http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
+  http://www.infocopter.com/perl/modules/
+  http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
 
 =head1 AUTHOR
 
-Reto Schär, E<lt>retoh@cpan.orgE<gt>
+Reto Schär, E<lt>retoh@localdomainE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
