@@ -230,11 +230,19 @@ CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
 
   my $mw = CMS::MediaWiki->new(
 	host  => 'localhost',
-	path  => 'wiki' ,     # -- E<gt> Can be empty
-	debug => 0            # -- E<gt> 0 (no debug msgs), 1 or 2 (more msgs)
+	path  => 'wiki' ,     #  Can be empty on 3rd-level domain Wikis
+	debug => 0            #  0=no debug msgs, 1=some msgs, 2=more msgs
   );
 
 =head1 DESCRIPTION
+
+Create or update MediaWiki pages. An update of a MediaWiki page can also be
+reduced to a specific page section. You may update many pages with the same
+object handle ($mw in the shown example).
+
+You could change the login name between an update. This might be necessary
+if you would like to update a public page *and* a protected page by the
+WikiSysop user in just one cycle.
 
 =head2 Login example
 
