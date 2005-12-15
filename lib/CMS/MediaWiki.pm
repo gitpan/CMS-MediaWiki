@@ -6,11 +6,16 @@ package CMS::MediaWiki;
 # This library is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself, either Perl version 5.8.6 or,
 # at your option, any later version of Perl 5 you may have available.
+#
+# Location:
+# http://search.cpan.org/dist/CMS-MediaWiki/lib/CMS/MediaWiki.pm
+#
+# Find more MediaWiki reference on:
+# http://www.infocopter.com/know-how/cms.html
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-
-our $VERSION = '0.80.05';
+our $VERSION = '0.80.07';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -127,7 +132,7 @@ sub editPage {
 
 	my $edit_section = length($args{'section'}) > 0 ? "\&section=$args{'section'}" : '';
 
-	# (Pre)fetch page...
+	# (Pre-)fetch page...
 	my $resp = $ua->request(GET "http://$WHOST/$WPATH/index.php?title=$args{'title'}&action=edit$edit_section");
 	my @lines = split /\n/, $resp->content();
 	my $token = my $edit_time = '';
@@ -246,7 +251,7 @@ WikiSysop user in just one cycle.
 
 =head2 Login example
 
-	$rc = $mw->login( user => 'Reto' , pass => 'yourpass' );
+	$rc = $mw->login( user => 'Reto', pass => 'yourpass' );
 
 =head2 Another login example
 
@@ -274,7 +279,7 @@ In general, $rc returns 0 on success unequal 0 on failure.
 
 =head3 Tip
 
-After a successful call of the editPage function you had the
+After a successful call of the *editPage* function you had the
 following information available:
 
   print "Edit time (before) was ", $mw->get('EDIT_TIME_BEFORE'), "\n";
@@ -288,6 +293,8 @@ None by default.
 =head1 SEE ALSO
 
 http://www.infocopter.com/perl/modules/
+
+http://www.infocopter.com/know-how/cms.html
 
 http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
 
