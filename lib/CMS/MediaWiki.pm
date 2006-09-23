@@ -1,7 +1,7 @@
 package CMS::MediaWiki;
 #######################################################################
 # Author: Reto Schär
-# Copyright (C) 2005 by Reto Schär
+# Copyright (C) 2005-2006 by Reto Schär
 #
 # This library is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself, either Perl version 5.8.6 or,
@@ -15,7 +15,7 @@ package CMS::MediaWiki;
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.80.07';
+our $VERSION = '0.080008';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -36,6 +36,7 @@ sub new {
 	my %params = @_;
 	my $self = {};
 
+	$self->{'protocol'} = $params{'protocol'} || 'http'; # optional
 	$self->{'host'  } = $params{'host'};
 	$self->{'path'  } = $params{'path'};
 	$self->{'debug' } = $params{'debug'}; # 0, 1, 2
@@ -60,6 +61,7 @@ sub login {
 		Debug "[login] $_ = $args{$_}" foreach keys %args;
 	}
 
+	$args{'protocol'} ||= $self->{'protocol'};
 	$args{'path'} ||= $self->{'path'};
 	$self->{'path'} = $args{'path'}; # globalize, if it was set here
 
@@ -74,7 +76,7 @@ sub login {
 	my $index_path = "/index.php";
 	   $index_path = "/$args{'path'}/index.php" if $args{'path'};
 
-	my $login_url = "http://$args{'host'}$index_path?title=Special:Userlogin&amp;action=submitlogin";
+	my $login_url = "$args{'protocol'}://$args{'host'}$index_path?title=Special:Userlogin&amp;action=submitlogin";
 
 	Debug "[login] POST $login_url\..." if $self->{'debug'};
 
@@ -124,8 +126,9 @@ sub editPage {
 	my $WHOST = $self->{'host'} || 'localhost';
 	my $WPATH = $self->{'path'} || '';
 
+	$args{'protocol'} ||= $self->{'protocol'};
 	$args{'text   '} ||= '* No text *';
-	$args{'summary'} ||= '';
+	$args{'summary'} ||= 'By CMS::MediaWiki';
 	$args{'section'} ||= '';
 
 	Debug "Editing page '$args{'title'}' (section '$args{'section'}')..." if $self->{'debug'};
@@ -133,7 +136,7 @@ sub editPage {
 	my $edit_section = length($args{'section'}) > 0 ? "\&section=$args{'section'}" : '';
 
 	# (Pre-)fetch page...
-	my $resp = $ua->request(GET "http://$WHOST/$WPATH/index.php?title=$args{'title'}&action=edit$edit_section");
+	my $resp = $ua->request(GET "$args{'protocol'}://$WHOST/$WPATH/index.php?title=$args{'title'}&action=edit$edit_section");
 	my @lines = split /\n/, $resp->content();
 	my $token = my $edit_time = '';
 	foreach (@lines) {
@@ -173,7 +176,7 @@ sub editPage {
 	$tags{'action' } = 'submit';
 
 	$resp = $ua->request(
-		POST "http://$WHOST/$WPATH/index.php?title=$args{'title'}&amp;action=submit" ,
+		POST "$args{'protocol'}://$WHOST/$WPATH/index.php?title=$args{'title'}&amp;action=submit" ,
 		Content_Type  => 'application/x-www-form-urlencoded' ,
 		Content       => [ %tags ]
 	);
@@ -234,6 +237,7 @@ CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
   use CMS::MediaWiki;
 
   my $mw = CMS::MediaWiki->new(
+	# protocol => 'https',  # optional, default is http
 	host  => 'localhost',
 	path  => 'wiki' ,     #  Can be empty on 3rd-level domain Wikis
 	debug => 0            #  0=no debug msgs, 1=some msgs, 2=more msgs
@@ -256,6 +260,7 @@ WikiSysop user in just one cycle.
 =head2 Another login example
 
 	$rc = $mw->login(
+		# protocol => 'https',  # optional, default is http
 		host => 'localhost' ,  # optional here, but wins if (re-)set here
 		path => 'wiki',        # optional here, but wins
 		user => 'Reto' ,
@@ -270,9 +275,9 @@ WikiSysop user in just one cycle.
 	    	section => '' ,	#  2 means edit second section etc.
         	                # '' = no section means edit the full page
 
-        	text    => "== foo ==\nbar foo\n\n",
+        	text    => "== Your Section Title ==\nbar foo\n\n",
 
-		summary => "Your summary." ,
+		summary => "Your summary." , # optional
 	);
 
 In general, $rc returns 0 on success unequal 0 on failure.
@@ -304,7 +309,7 @@ Reto Schär, E<lt>retoh@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Reto Schär
+Copyright (C) 2005-2006 by Reto Schär
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
