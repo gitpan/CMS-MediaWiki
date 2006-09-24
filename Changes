@@ -1,6 +1,6 @@
 Revision history for Perl extension CMS::MediaWiki.
 
-0.80.09  24.09.2006
+0.80.10  24.09.2006
 
 	 - Added useful getPage() function, developed by Matt Hucke <hucke@nospam-cynico.net>
 	   Thank you.

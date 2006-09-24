@@ -15,7 +15,7 @@ package CMS::MediaWiki;
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.8009'; # 0.80.09
+our $VERSION = '0.8010'; # 0.80.10
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -312,27 +312,27 @@ WikiSysop user in just one cycle.
 
 =head2 Login example
 
-if ($mw->login(user => 'Reto', pass => 'yourpass')) {
+  if ($mw->login(user => 'Reto', pass => 'yourpass')) {
 	print STDERR "Could not login\n";
 	exit;
-}
-else {
+  }
+  else {
 	# Logged in, do stuff ...
-}
+  }
 
 =head2 Another login example
 
-$rc = $mw->login(
+  $rc = $mw->login(
 	protocol => 'https',       # optional, default is http
 	host     => 'localhost' ,  # optional here, but wins if (re-)set here
 	path     => 'wiki',        # optional here, but wins
 	user     => 'Reto' ,
 	pass     => 'yourpass' ,
-);
+  );
 
 =head2 Edit a Wiki page or section
 
-$rc = $mw->editPage(
+  $rc = $mw->editPage(
 	title   => 'Online_Directory:Computers:Software:Internet:Authoring' ,
 
     	section => '' ,	#  2 means edit second section etc.
@@ -341,14 +341,14 @@ $rc = $mw->editPage(
        	text    => "== Your Section Title ==\nbar foo\n\n",
 
 	summary => "Your summary." , # optional
-);
+  );
 
 =head2 Get a Wiki page or a section of a Wiki page
 
-$lines_ref = $mw->getPage(title => 'Perl_driven', section => 1); # omit section to get full page
+  $lines_ref = $mw->getPage(title => 'Perl_driven', section => 1); # omit section to get full page
 
-# Process Wiki lines ...
-print sprintf('%08d ', ++$i), " $_\n" foreach @$lines_ref;
+  # Process Wiki lines ...
+  print sprintf('%08d ', ++$i), " $_\n" foreach @$lines_ref;
 
 In general, $rc returns 0 on success unequal 0 on failure.
 
@@ -379,7 +379,7 @@ Reto Schaer, E<lt>retoh@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2006 by Reto Schär
+Copyright (C) 2005-2006 by Reto Schaer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
