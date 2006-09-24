@@ -15,7 +15,7 @@ package CMS::MediaWiki;
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.080008';
+our $VERSION = '0.8009'; # 0.80.09
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -207,9 +207,66 @@ sub let {
 	my $self  = shift;
 	my $Key   = shift;
 	my $Value = shift;
-
 	Debug "[let] $Key = $Value" if $self->{'debug'};
 	$Var{$Key} = $Value;
+}
+
+sub getPage {
+	# returns arrayref of lines of page source
+	# Function created by Matt Hucke <hucke@nospam-cynico.net>
+	my ($self, %args) = @_;
+	
+	$args{'protocol'} ||= $self->{'protocol'};
+	$args{'section' } ||= 0;
+
+	if ($self->{'debug'}) {
+		Debug "[getPage] $_ = \"$args{$_}\"" foreach keys %args;
+		Debug "[getPage] VAR $_ = \"$Var{$_}\"" foreach keys %Var;
+	}
+
+	my $WHOST = $self->{'host'} || 'localhost';
+	my $WPATH = $self->{'path'} || '';
+
+	Debug "Fetching page '$args{'title'}' (section '$args{'section'}')..." if $self->{'debug'};
+
+	my $edit_section = $args{'section'} ? "\&section=$args{'section'}" : '';
+	my $resp = $ua->request(GET "$args{'protocol'}://$WHOST/$WPATH/index.php?title=$args{'title'}&action=edit$edit_section");
+	my @lines = split /\n/, $resp->content();
+
+	my @content = ();
+	my $saving = 0;
+
+	# This is a very simple parser - it looks for <textarea...wpTextbox1> and </textarea>
+	# and returns everything in between.
+	for (my $jj = 0; $jj <= $#lines; $jj++) {
+		my $line = $lines[$jj];   
+
+		if ($line =~ m/<textarea.*wpTextbox1/) {
+			$saving = 1;
+
+			if ($line =~ m/<textarea[^>]+>(.*)/) {
+				$line = $1;    # strip out <textarea.....>, keep what's after.
+			} else {
+				# ADVANCE to next line
+				++$jj;
+				$line = $lines[$jj];
+
+				# strip out end of textarea tag at start of line
+				$line =~ s#^[^>]+>##;   
+			}
+
+			# if any of $line remains, fall thru to 'push' part.
+			next unless ($line);
+
+		} elsif ($line =~ m#(.*)</textarea>#) {
+			push (@content, $line) if ($saving && $1);
+			$saving = 0;
+		}
+		push (@content, $line) if ($saving);
+	}
+
+	# Always return an arrayref for later processing
+	\@content;
 }
 
 sub Error ($) {
@@ -255,30 +312,43 @@ WikiSysop user in just one cycle.
 
 =head2 Login example
 
-	$rc = $mw->login( user => 'Reto', pass => 'yourpass' );
+if ($mw->login(user => 'Reto', pass => 'yourpass')) {
+	print STDERR "Could not login\n";
+	exit;
+}
+else {
+	# Logged in, do stuff ...
+}
 
 =head2 Another login example
 
-	$rc = $mw->login(
-		# protocol => 'https',  # optional, default is http
-		host => 'localhost' ,  # optional here, but wins if (re-)set here
-		path => 'wiki',        # optional here, but wins
-		user => 'Reto' ,
-		pass => 'yourpass' ,
-	);
+$rc = $mw->login(
+	protocol => 'https',       # optional, default is http
+	host     => 'localhost' ,  # optional here, but wins if (re-)set here
+	path     => 'wiki',        # optional here, but wins
+	user     => 'Reto' ,
+	pass     => 'yourpass' ,
+);
 
-=head2 Edit a Wiki page
+=head2 Edit a Wiki page or section
 
-	$rc = $mw->editPage(
-		title   => 'Online_Directory:Computers:Software:Internet:Authoring' ,
+$rc = $mw->editPage(
+	title   => 'Online_Directory:Computers:Software:Internet:Authoring' ,
 
-	    	section => '' ,	#  2 means edit second section etc.
-        	                # '' = no section means edit the full page
+    	section => '' ,	#  2 means edit second section etc.
+       	                # '' = no section means edit the full page
 
-        	text    => "== Your Section Title ==\nbar foo\n\n",
+       	text    => "== Your Section Title ==\nbar foo\n\n",
 
-		summary => "Your summary." , # optional
-	);
+	summary => "Your summary." , # optional
+);
+
+=head2 Get a Wiki page or a section of a Wiki page
+
+$lines_ref = $mw->getPage(title => 'Perl_driven', section => 1); # omit section to get full page
+
+# Process Wiki lines ...
+print sprintf('%08d ', ++$i), " $_\n" foreach @$lines_ref;
 
 In general, $rc returns 0 on success unequal 0 on failure.
 
@@ -305,7 +375,7 @@ http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
 
 =head1 AUTHOR
 
-Reto Schär, E<lt>retoh@cpan.orgE<gt>
+Reto Schaer, E<lt>retoh@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

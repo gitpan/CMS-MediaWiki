@@ -1,6 +1,24 @@
 Revision history for Perl extension CMS::MediaWiki.
 
-0.01  Fri Dec  9 11:34:22 2005
-	- original version; created by h2xs 1.23 with options
+0.80.09  24.09.2006
+
+	 - Added useful getPage() function, developed by Matt Hucke <hucke@nospam-cynico.net>
+	   Thank you.
+
+
+0.80.08	 23.09.2006
+
+	 - Added the *optional* constructor parameter 'protocol' where the default value is http
+	   as quoted on http://rt.cpan.org/Public/Bug/Display.html?id=20977
+
+	   This parameter can also be used in the login function where it is optional as well.
+
+	 - Changed format of $VERSION so CPAN.pm may recognize the version number correctly.
+	   You have to 'force install' if you had installed CMS::MediaWiki release 0.80.07.
+
+
+0.01	 Fri Dec  9 11:34:22 2005
+	 Created.
+	 - original version; created by h2xs 1.23 with options
 		-A -n CMS::MediaWiki
 
