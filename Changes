@@ -1,5 +1,11 @@
 Revision history for Perl extension CMS::MediaWiki.
 
+0.80.11	 21.10.2006
+
+	 - Set defaults for constructor values. Prevent warning if debug param is not set
+	 - Added license in META.yml
+
+
 0.80.10  24.09.2006
 
 	 - Added useful getPage() function, developed by Matt Hucke <hucke@nospam-cynico.net>

@@ -15,7 +15,7 @@ package CMS::MediaWiki;
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.8010'; # 0.80.10
+our $VERSION = '0.8011'; # 0.80.11
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -37,9 +37,9 @@ sub new {
 	my $self = {};
 
 	$self->{'protocol'} = $params{'protocol'} || 'http'; # optional
-	$self->{'host'  } = $params{'host'};
-	$self->{'path'  } = $params{'path'};
-	$self->{'debug' } = $params{'debug'}; # 0, 1, 2
+	$self->{'host'  } = $params{'host'} || 'localhost';
+	$self->{'path'  } = $params{'path'} || '';
+	$self->{'debug' } = $params{'debug'} || 0; # 0, 1, 2
 	$Var{'SERVER_SIG'} = '*Unknown*';
 	$Var{'EDIT_TIME_BEFORE'} = '*Unknown*';
 
@@ -69,8 +69,8 @@ sub login {
 	$self->{'host'} = $args{'host'}; # globalize
 
 	my %tags = ();
-	$tags{'wpName'        } = $args{'user'};
-	$tags{'wpPassword'    } = $args{'pass'};
+	$tags{'wpName'        } = $args{'user'} || 'Perlbot';
+	$tags{'wpPassword'    } = $args{'pass'} || 'barfoo';
 	$tags{'wpLoginattempt'} = 'Log in';
 
 	my $index_path = "/index.php";
@@ -287,17 +287,17 @@ __END__
 
 =head1 NAME
 
-CMS::MediaWiki - Perl extension for creating and updating MediaWiki pages
+CMS::MediaWiki - Perl extension for creating, reading and updating MediaWiki pages
 
 =head1 SYNOPSIS
 
   use CMS::MediaWiki;
 
   my $mw = CMS::MediaWiki->new(
-	# protocol => 'https',  # optional, default is http
-	host  => 'localhost',
-	path  => 'wiki' ,     #  Can be empty on 3rd-level domain Wikis
-	debug => 0            #  0=no debug msgs, 1=some msgs, 2=more msgs
+	# protocol => 'https',  # Optional, default is http
+	host  => 'localhost',   # Default: localhost
+	path  => 'wiki' ,       # Can be empty on 3rd-level domain Wikis
+	debug => 0              # Optional. 0=no debug msgs, 1=some msgs, 2=more msgs
   );
 
 =head1 DESCRIPTION
@@ -317,7 +317,7 @@ WikiSysop user in just one cycle.
 	exit;
   }
   else {
-	# Logged in, do stuff ...
+	# Logged in. Do stuff ...
   }
 
 =head2 Another login example
@@ -326,7 +326,7 @@ WikiSysop user in just one cycle.
 	protocol => 'https',       # optional, default is http
 	host     => 'localhost' ,  # optional here, but wins if (re-)set here
 	path     => 'wiki',        # optional here, but wins
-	user     => 'Reto' ,
+	user     => 'Reto' ,       # default: Perlbot
 	pass     => 'yourpass' ,
   );
 
