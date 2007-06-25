@@ -1,5 +1,10 @@
 Revision history for Perl extension CMS::MediaWiki.
 
+0.8012	 25.06.2007
+
+	 - Updated URLs in the documentation.
+
+
 0.80.11	 21.10.2006
 
 	 - Set defaults for constructor values. Prevent warning if debug param is not set

@@ -1,21 +1,22 @@
 package CMS::MediaWiki;
 #######################################################################
 # Author: Reto Schär
-# Copyright (C) 2005-2006 by Reto Schär
+# Copyright (C) by Reto Schär (find details at the end of this script)
 #
 # This library is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself, either Perl version 5.8.6 or,
 # at your option, any later version of Perl 5 you may have available.
 #
-# Location:
+# Locations:
+# http://meta.pgate.net/cms-mediawiki/
 # http://search.cpan.org/dist/CMS-MediaWiki/lib/CMS/MediaWiki.pm
 #
-# Find more MediaWiki reference on:
-# http://www.infocopter.com/know-how/cms.html
+# Find more MediaWiki reference in general on:
+# http://www.infocopter.com/know-how/mediawiki-reference/
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.8011'; # 0.80.11
+our $VERSION = '0.8012';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -354,7 +355,7 @@ In general, $rc returns 0 on success unequal 0 on failure.
 
 =head3 Tip
 
-After a successful call of the *editPage* function you had the
+After a successful call of the B<editPage> function you had the
 following information available:
 
   print "Edit time (before) was ", $mw->get('EDIT_TIME_BEFORE'), "\n";
@@ -367,19 +368,25 @@ None by default.
 
 =head1 SEE ALSO
 
+=item *
+
+http://meta.pgate.net/cms-mediawiki/
+
+=item *
+
 http://www.infocopter.com/perl/modules/
 
-http://www.infocopter.com/know-how/cms.html
+=item *
 
-http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
+http://www.infocopter.com/know-how/mediawiki-reference/
 
 =head1 AUTHOR
 
-Reto Schaer, E<lt>retoh@cpan.orgE<gt>
+Reto Schaer, E<lt>retoh@nospam-cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2006 by Reto Schaer
+Copyright (C) 2005-2007 by Reto Schaer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
