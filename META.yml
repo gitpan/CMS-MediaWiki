@@ -1,10 +1,11 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         CMS-MediaWiki
-version:      0.8012
+version:      0.8013
 version_from: lib/CMS/MediaWiki.pm
 installdirs:  site
 requires:
+    LWP::UserAgent:                0
 
 distribution_type: module
 generated_by: ExtUtils::MakeMaker version 6.17

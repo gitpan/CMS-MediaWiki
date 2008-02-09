@@ -16,7 +16,7 @@ package CMS::MediaWiki;
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.8012';
+our $VERSION = '0.8013';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;

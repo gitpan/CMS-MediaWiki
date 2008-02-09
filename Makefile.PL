@@ -6,10 +6,10 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME              => 'CMS::MediaWiki',
     VERSION_FROM      => 'lib/CMS/MediaWiki.pm', # finds $VERSION
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
+    PREREQ_PM         => { 'LWP::UserAgent' => 0 }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/CMS/MediaWiki.pm', # retrieve abstract from module
-       AUTHOR         => 'Reto Hersiczky <retoh@localdomain>') : ()),
+       AUTHOR         => 'Reto Schaer <retoh@localdomain>') : ()),
     LIBS              => [''], # e.g., '-lm'
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     INC               => '-I.', # e.g., '-I. -I/usr/include/other'
