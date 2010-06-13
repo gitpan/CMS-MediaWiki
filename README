@@ -5,9 +5,9 @@ CMS::MediaWiki - Perl extension for managing MediaWiki pages
 
 Please see
 
-http://www.infocopter.com/know-how/mediawiki-reference/Perl-CMS-MediaWiki.html
+http://meta.pgate.net/cms-mediawiki/
 
-or enter
+or
 
 man CMS::MediaWiki
 
@@ -52,5 +52,5 @@ COPYRIGHT AND LICENCE
 
   See also: <http://www.infocopter.com/perl/licencing.html>
 
-Copyright (C) 2005-2006 by Reto Schaer
+Copyright (C) 2005-2010 by Reto Schaer
 

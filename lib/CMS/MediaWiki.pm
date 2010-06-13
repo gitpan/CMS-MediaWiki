@@ -10,13 +10,10 @@ package CMS::MediaWiki;
 # Locations:
 # http://meta.pgate.net/cms-mediawiki/
 # http://search.cpan.org/dist/CMS-MediaWiki/lib/CMS/MediaWiki.pm
-#
-# Find more MediaWiki reference in general on:
-# http://www.infocopter.com/know-how/mediawiki-reference/
 #######################################################################
 use strict;
 my $package = __PACKAGE__;
-our $VERSION = '0.8013';
+our $VERSION = '0.8014';
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -131,6 +128,7 @@ sub editPage {
 	$args{'text   '} ||= '* No text *';
 	$args{'summary'} ||= 'By CMS::MediaWiki';
 	$args{'section'} ||= '';
+	$args{'watch'} ||= 0;
 
 	Debug "Editing page '$args{'title'}' (section '$args{'section'}')..." if $self->{'debug'};
 
@@ -172,6 +170,7 @@ sub editPage {
 	$tags{'wpSection'  } = $args{'section'};
 	$tags{'wpSummary'  } = $args{'summary'};
 	$tags{'wpEditToken'} = $token;
+	$tags{'wpWatchthis'} = $args{'watch'};
 
 	$tags{'title' } = $args{'title'};
 	$tags{'action' } = 'submit';
@@ -374,11 +373,11 @@ http://meta.pgate.net/cms-mediawiki/
 
 =item *
 
-http://www.infocopter.com/perl/modules/
+http://www.screenpoint.biz/
 
 =item *
 
-http://www.infocopter.com/know-how/mediawiki-reference/
+https://twitter.com/screenpoint
 
 =head1 AUTHOR
 
@@ -386,7 +385,7 @@ Reto Schaer, E<lt>retoh@nospam-cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005-2007 by Reto Schaer
+Copyright (C) 2005-2010 by Reto Schaer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,

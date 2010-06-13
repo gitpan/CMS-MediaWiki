@@ -1,5 +1,10 @@
 Revision history for Perl extension CMS::MediaWiki.
 
+0.8014   13.06.2010
+
+         - Added small enhancement from "ed at sh5.net" to appear things on watch list
+
+
 0.8013	 09.02.2008
 
          - Added dynamic requirement LWP::UserAgent into Makefile.PL
@@ -20,17 +25,6 @@ Revision history for Perl extension CMS::MediaWiki.
 
 	 - Added useful getPage() function, developed by Matt Hucke <hucke@nospam-cynico.net>
 	   Thank you.
-
-
-0.80.08	 23.09.2006
-
-	 - Added the *optional* constructor parameter 'protocol' where the default value is http
-	   as quoted on http://rt.cpan.org/Public/Bug/Display.html?id=20977
-
-	   This parameter can also be used in the login function where it is optional as well.
-
-	 - Changed format of $VERSION so CPAN.pm may recognize the version number correctly.
-	   You have to 'force install' if you had installed CMS::MediaWiki release 0.80.07.
 
 
 0.01	 Fri Dec  9 11:34:22 2005
